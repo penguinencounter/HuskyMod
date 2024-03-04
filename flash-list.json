@@ -1,0 +1,9 @@
+{
+    "version": "0.1.0",
+    "files": [{
+            "address": 0,
+            "bin": "build/HuskyMod.bin",
+            "sha256Prefix": true
+        }
+    ]
+}

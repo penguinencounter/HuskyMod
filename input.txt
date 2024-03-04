@@ -1,0 +1,4 @@
+    FPIOA_PULL_NONE,      /*!< No Pull */
+    FPIOA_PULL_DOWN,      /*!< Pull Down */
+    FPIOA_PULL_UP,        /*!< Pull Up */
+    FPIOA_PULL_MAX        /*!< Count of pull settings */
