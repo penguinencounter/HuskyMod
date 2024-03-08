@@ -814,3 +814,4 @@ kendryte-standalone-demo-bak
 /kendryte-toolchain
 /CMakeSettings.json
 /build_i
+!/lib/nncase/v1/lib/*.a
