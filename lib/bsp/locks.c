@@ -1,17 +1,9 @@
 #include <stdlib.h>
 #include <sys/lock.h>
+#include "locks.h"
 #include "bsp.h"
 
 #define LOCK_MAX_NUM (1024)
-
-typedef long _lock_t;
-
-typedef struct
-{
-    _lock_t *lock;
-    long counter;
-    unsigned long core;
-} reculock_t;
 
 reculock_t reculock[LOCK_MAX_NUM];
 static _lock_t reculock_mutex;

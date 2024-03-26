@@ -5,6 +5,7 @@
 #include "iomem.h"
 #include "printf.h"
 #include "atomic.h"
+#include "locks.h"
 
 #define IOMEM_BLOCK_SIZE 256
 
