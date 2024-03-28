@@ -1,3 +1,27 @@
+# DogTrainer
+HuskyLens CFW toolkit and SDK. Based on the **Kendryte K210 standalone SDK**.
+You'll need some C/C++ experience to use this.
+
+## Setup
+You'll need to **build your own RISC-V toolchain**. If you're on Linux.
+
+### Linux
+Go to [riscv-collab/riscv-gnu-toolchain](https://github.com/riscv-collab/riscv-gnu-toolchain) and clone the repository.
+Follow the instructions in the toolchain's README to clone the repository and install the dependencies, alongside
+`build-essential` (or your distro's equivalent)
+
+The call to `configure` is **different from those in the README**. You'll need to setup an installation location
+before running `make` - for example, `sudo mkdir /opt/riscv` and then `sudo chown <user> /opt/riscv`. It may be
+preferred to install into a user directory to avoid `sudo`.
+```bash
+INSTALL_TO=/opt/riscv
+./configure --host=riscv64-unknown-elf --with-arch=rv64gc --with-abi=lp64d --with-cmodel=medany --prefix=$INSTALL_TO
+
+# consider doing this in tmux or screen so you can walk away from it
+# takes a while
+make
+```
+
 # Kendryte K210 standalone SDK
 
 [![Build Status](https://travis-ci.org/kendryte/kendryte-standalone-sdk.svg)](https://travis-ci.org/kendryte/kendryte-standalone-sdk)

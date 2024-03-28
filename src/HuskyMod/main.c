@@ -95,6 +95,6 @@ int main(void) {
         int set_2 = !gpiohs_get_pin(3); // nav-press
         int set_3 = !gpiohs_get_pin(4); // nav-right
         int button = !gpiohs_get_pin(5); // learn
-        rgb(0.2 * (set_1 | button) + 0.025, 0.2 * (set_2 | button) + 0.025, 0.2 * (set_3 | button) + 0.025);
+        rgb(0.2 * (set_1 | button) + 0.025, 0.2 * (set_2 | button) + 0.0, 0.2 * (set_3 | button) + 0.0);
     }
 }
