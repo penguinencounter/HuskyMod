@@ -2,7 +2,7 @@
 
 # create driver library
 
-ADD_SUBDIRECTORY(nncase)
+#ADD_SUBDIRECTORY(nncase)
 
 FILE(GLOB_RECURSE LIB_SRC
         "${CMAKE_CURRENT_LIST_DIR}/bsp/*.h"

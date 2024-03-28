@@ -1,3 +1,6 @@
+//
+// Created by penguinencounter on 3/28/24.
+//
 #include <timer.h>
 #include <pwm.h>
 #include <plic.h>
@@ -6,6 +9,7 @@
 #include <fpioa.h>
 #include <gpiohs.h>
 #include <spi.h>
+
 void enable_pwms() {
     pwm_set_enable(PWM_DEVICE_2, PWM_CHANNEL_0, 1);
     pwm_set_enable(PWM_DEVICE_2, PWM_CHANNEL_1, 1);
@@ -20,14 +24,14 @@ void rgb(double r, double g, double b) {
 }
 
 
-int main(void) {
+int main() {
     // RGB LED
     fpioa_set_function(0x20,FUNC_TIMER2_TOGGLE1);
     fpioa_set_function(0x1e,FUNC_TIMER2_TOGGLE2);
     fpioa_set_function(0x1f,FUNC_TIMER2_TOGGLE3);
     // White LEDs
     fpioa_set_function(0x17,FUNC_TIMER1_TOGGLE1);
-    
+
     // Buttons
     fpioa_set_function(0x27,FUNC_GPIOHS2);
     fpioa_set_function(0x26,FUNC_GPIOHS3);
@@ -72,7 +76,7 @@ int main(void) {
     // fpioa_set_function(0x09,FUNC_I2C0_SDA); // dup
     // fpioa_set_function(0x22,FUNC_UART1_RX);  // conflict 1
     // fpioa_set_function(0x0a,FUNC_UART1_TX);
-    
+
     // 0005bc72
     // conditional
     // fpioa_set_function(0x23,FUNC_UART1_TX); // conflict 2
