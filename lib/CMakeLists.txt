@@ -23,7 +23,14 @@ FILE(GLOB_RECURSE LIB_SRC
         "${CMAKE_CURRENT_LIST_DIR}/bsp/*.S"
         "${CMAKE_CURRENT_LIST_DIR}/drivers/*.S"
         "${CMAKE_CURRENT_LIST_DIR}/utils/*.S"
-        )
+
+        "${CMAKE_CURRENT_LIST_DIR}/huskylens/*.h"
+        "${CMAKE_CURRENT_LIST_DIR}/huskylens/*.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/huskylens/*.c"
+        "${CMAKE_CURRENT_LIST_DIR}/huskylens/*.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/huskylens/*.s"
+        "${CMAKE_CURRENT_LIST_DIR}/huskylens/*.S"
+)
 
 FILE(GLOB_RECURSE ASSEMBLY_FILES
         "${CMAKE_CURRENT_LIST_DIR}/bsp/*.s"
@@ -32,15 +39,22 @@ FILE(GLOB_RECURSE ASSEMBLY_FILES
         "${CMAKE_CURRENT_LIST_DIR}/bsp/*.S"
         "${CMAKE_CURRENT_LIST_DIR}/drivers/*.S"
         "${CMAKE_CURRENT_LIST_DIR}/utils/*.S"
-        )
 
-include_directories(${CMAKE_CURRENT_LIST_DIR}/drivers/include ${CMAKE_CURRENT_LIST_DIR}/bsp/include)
+        "${CMAKE_CURRENT_LIST_DIR}/huskylens/*.s"
+        "${CMAKE_CURRENT_LIST_DIR}/huskylens/*.S"
+)
+
+include_directories(
+        ${CMAKE_CURRENT_LIST_DIR}/drivers/include
+        ${CMAKE_CURRENT_LIST_DIR}/bsp/include
+        ${CMAKE_CURRENT_LIST_DIR}/huskylens/include
+)
 
 SET_PROPERTY(SOURCE ${ASSEMBLY_FILES} PROPERTY LANGUAGE C)
 SET_SOURCE_FILES_PROPERTIES(${ASSEMBLY_FILES} PROPERTIES COMPILE_FLAGS "-x assembler-with-cpp -D __riscv64")
 
 ADD_LIBRARY(kendryte
         ${LIB_SRC}
-        )
+)
 #TARGET_LINK_LIBRARIES(kendryte PUBLIC nncase-wrapper)
 SET_TARGET_PROPERTIES(kendryte PROPERTIES LINKER_LANGUAGE C)

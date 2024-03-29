@@ -3,12 +3,9 @@
 //
 #include <bsp.h>
 #include <fpioa.h>
-#include <gpiohs.h>
-#include <plic.h>
 #include <pwm.h>
 #include <spi.h>
-#include <sysctl.h>
-#include <timer.h>
+#include "huskylens.h"
 
 void enable_pwms()
 {
@@ -26,23 +23,7 @@ void rgb(double r, double g, double b)
 
 int main()
 {
-    // RGB LED
-    fpioa_set_function(0x20, FUNC_TIMER2_TOGGLE1);
-    fpioa_set_function(0x1e, FUNC_TIMER2_TOGGLE2);
-    fpioa_set_function(0x1f, FUNC_TIMER2_TOGGLE3);
-    // White LEDs
-    fpioa_set_function(0x17, FUNC_TIMER1_TOGGLE1);
-
-    // Buttons
-    fpioa_set_function(0x27, FUNC_GPIOHS2);
-    fpioa_set_function(0x26, FUNC_GPIOHS3);
-    fpioa_set_function(0x25, FUNC_GPIOHS4);
-    fpioa_set_function(0x24, FUNC_GPIOHS5);
-
-    gpiohs_set_drive_mode(2, GPIO_DM_INPUT);
-    gpiohs_set_drive_mode(3, GPIO_DM_INPUT);
-    gpiohs_set_drive_mode(4, GPIO_DM_INPUT);
-    gpiohs_set_drive_mode(5, GPIO_DM_INPUT);
+    hl::setup(hl::AllDevices);
 
     // Unknown from 000537d2
     fpioa_set_function(0x2f, FUNC_CMOS_PCLK);
@@ -82,23 +63,17 @@ int main()
     // conditional
     // fpioa_set_function(0x23,FUNC_UART1_TX); // conflict 2
 
-    pwm_init(PWM_DEVICE_2);
-    pwm_init(PWM_DEVICE_1);
-
-    rgb(0.0, 0.0, 0.0);
-
-    enable_pwms();
-
-    pwm_set_frequency(PWM_DEVICE_1, PWM_CHANNEL_0, 100000.0, 0.01);
-    pwm_set_enable(PWM_DEVICE_1, PWM_CHANNEL_0, 1);
+    hl::set_rgb(0.0, 0.0, 0.0);
+    hl::set_white(0.01);
 
     for(;;)
     {
         msleep(50);
-        int set_1 = !gpiohs_get_pin(2);  // nav-left
-        int set_2 = !gpiohs_get_pin(3);  // nav-press
-        int set_3 = !gpiohs_get_pin(4);  // nav-right
-        int button = !gpiohs_get_pin(5); // learn
-        rgb(0.2 * (set_1 | button) + 0.025, 0.2 * (set_2 | button) + 0.0, 0.2 * (set_3 | button) + 0.0);
+        hl::button_state buttons = hl::get_buttons();
+        bool set_1 = buttons.dial_left;
+        bool set_2 = buttons.dial_press;
+        bool set_3 = buttons.dial_right;
+        bool button = buttons.learn;
+        hl::set_rgb(0.2 * (set_1 | button) + 0.025, 0.2 * (set_2 | button) + 0.0, 0.2 * (set_3 | button) + 0.0);
     }
 }
