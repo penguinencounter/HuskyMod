@@ -66,10 +66,10 @@ void buttons_init()
 button_state buttons_get()
 {
     return {
-        static_cast<bool>(gpiohs_get_pin(GPIO_LEARN)),
-        static_cast<bool>(gpiohs_get_pin(GPIO_DIAL_LEFT)),
-        static_cast<bool>(gpiohs_get_pin(GPIO_DIAL_PRESS)),
-        static_cast<bool>(gpiohs_get_pin(GPIO_DIAL_RIGHT)),
+        .learn = static_cast<bool>(gpiohs_get_pin(GPIO_LEARN)),
+        .dial_left = static_cast<bool>(gpiohs_get_pin(GPIO_DIAL_LEFT)),
+        .dial_press = static_cast<bool>(gpiohs_get_pin(GPIO_DIAL_PRESS)),
+        .dial_right = static_cast<bool>(gpiohs_get_pin(GPIO_DIAL_RIGHT)),
     };
 }
 
