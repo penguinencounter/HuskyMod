@@ -2,6 +2,7 @@
 // Created by penguinencounter on 3/28/24.
 //
 
+#include "fpioa.h"
 #include "gpio_common.h"
 #include "gpiohs.h"
 #include "include/huskylens.h"
@@ -11,7 +12,7 @@ namespace hl
 {
 bool _rgb_initialized = false;
 
-void setup_rgb()
+void rgb_init()
 {
     _rgb_initialized = true;
     fpioa_set_function(0x20, FUNC_TIMER2_TOGGLE1);
@@ -22,17 +23,17 @@ void setup_rgb()
     pwm_set_enable(PWM_DEVICE_2, PWM_CHANNEL_1, 1);
     pwm_set_enable(PWM_DEVICE_2, PWM_CHANNEL_2, 1);
 }
-void set_rgb(double r, double g, double b)
+void rgb_set(const double r, const double g, const double b)
 {
     if(!_rgb_initialized)
-        setup_rgb();
+        rgb_init();
     pwm_set_frequency(PWM_DEVICE_2, PWM_CHANNEL_0, 100000.0, r);
     pwm_set_frequency(PWM_DEVICE_2, PWM_CHANNEL_1, 100000.0, g);
     pwm_set_frequency(PWM_DEVICE_2, PWM_CHANNEL_2, 100000.0, b);
 }
 
 bool _white_initialized = false;
-void setup_white()
+void white_init()
 {
     _white_initialized = true;
     fpioa_set_function(0x17, FUNC_TIMER1_TOGGLE1);
@@ -40,15 +41,15 @@ void setup_white()
     pwm_set_enable(PWM_DEVICE_1, PWM_CHANNEL_0, 1);
 }
 
-void set_white(double brightness)
+void white_set(const double brightness)
 {
     if(!_white_initialized)
-        setup_white();
+        white_init();
     pwm_set_frequency(PWM_DEVICE_1, PWM_CHANNEL_0, 100000.0, brightness);
 }
 
 bool _buttons_initialized = false;
-void setup_buttons()
+void buttons_init()
 {
     _buttons_initialized = true;
 
@@ -62,7 +63,7 @@ void setup_buttons()
     gpiohs_set_drive_mode(GPIO_DIAL_RIGHT, GPIO_DM_INPUT);
 }
 
-button_state get_buttons()
+button_state buttons_get()
 {
     return {
         static_cast<bool>(gpiohs_get_pin(GPIO_LEARN)),
@@ -72,10 +73,14 @@ button_state get_buttons()
     };
 }
 
-void setup(devices_t devices) {
-    if (devices & devices_t::RGBLed) setup_rgb();
-    if (devices & devices_t::RGBLed) setup_white();
-    if (devices& devices_t::Buttons) setup_buttons();
+void init(const devices_t devices)
+{
+    if(devices & RGBLed)
+        rgb_init();
+    if(devices & WhiteLed)
+        white_init();
+    if(devices & Buttons)
+        buttons_init();
 }
 
 } // namespace hl

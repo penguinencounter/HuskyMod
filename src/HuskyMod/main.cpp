@@ -3,27 +3,12 @@
 //
 #include <bsp.h>
 #include <fpioa.h>
-#include <pwm.h>
 #include <spi.h>
 #include "huskylens.h"
 
-void enable_pwms()
-{
-    pwm_set_enable(PWM_DEVICE_2, PWM_CHANNEL_0, 1);
-    pwm_set_enable(PWM_DEVICE_2, PWM_CHANNEL_1, 1);
-    pwm_set_enable(PWM_DEVICE_2, PWM_CHANNEL_2, 1);
-}
-
-void rgb(double r, double g, double b)
-{
-    pwm_set_frequency(PWM_DEVICE_2, PWM_CHANNEL_0, 100000.0, r);
-    pwm_set_frequency(PWM_DEVICE_2, PWM_CHANNEL_1, 100000.0, g);
-    pwm_set_frequency(PWM_DEVICE_2, PWM_CHANNEL_2, 100000.0, b);
-}
-
 int main()
 {
-    hl::setup(hl::AllDevices);
+    hl::init(hl::AllDevices);
 
     // Unknown from 000537d2
     fpioa_set_function(0x2f, FUNC_CMOS_PCLK);
@@ -63,17 +48,13 @@ int main()
     // conditional
     // fpioa_set_function(0x23,FUNC_UART1_TX); // conflict 2
 
-    hl::set_rgb(0.0, 0.0, 0.0);
-    hl::set_white(0.01);
+    hl::rgb_set(0.0, 0.0, 0.0);
+    hl::white_set(0.01);
 
     for(;;)
     {
         msleep(50);
-        hl::button_state buttons = hl::get_buttons();
-        bool set_1 = buttons.dial_left;
-        bool set_2 = buttons.dial_press;
-        bool set_3 = buttons.dial_right;
-        bool button = buttons.learn;
-        hl::set_rgb(0.2 * (set_1 | button) + 0.025, 0.2 * (set_2 | button) + 0.0, 0.2 * (set_3 | button) + 0.0);
+        const auto [learn, dial_left, dial_press, dial_right] = hl::buttons_get();
+        hl::rgb_set(0.2 * (dial_left | learn) + 0.025, 0.2 * (dial_press | learn) + 0.025, 0.2 * (dial_right | learn) + 0.025);
     }
 }

@@ -5,7 +5,6 @@
 #ifndef HUSKYMOD_HUSKYLENS_H
 #define HUSKYMOD_HUSKYLENS_H
 
-#include "fpioa.h"
 namespace hl
 {
 enum devices_t
@@ -17,15 +16,15 @@ enum devices_t
     AllDevices = RGBLed | WhiteLed | Buttons
 };
 
-inline devices_t operator|(devices_t left, devices_t right)
+inline devices_t operator|(const devices_t left, const devices_t right)
 {
-    return devices_t(int(left) | int(right));
+    return static_cast<devices_t>(static_cast<int>(left) | static_cast<int>(right));
 }
 
-const int GPIO_LEARN = 5;
-const int GPIO_DIAL_LEFT = 2;
-const int GPIO_DIAL_PRESS = 3;
-const int GPIO_DIAL_RIGHT = 4;
+constexpr int GPIO_LEARN = 5;
+constexpr int GPIO_DIAL_LEFT = 2;
+constexpr int GPIO_DIAL_PRESS = 3;
+constexpr int GPIO_DIAL_RIGHT = 4;
 
 struct button_state
 {
@@ -38,35 +37,35 @@ struct button_state
 /**
  * Setup devices.
  */
-void setup(devices_t devices);
+void init(devices_t devices);
 
 /**
  * Set up the RGB LED for usage.
  */
-void setup_rgb();
+void rgb_init();
 /**
  * Set the color of the RGB LED.
  */
-void set_rgb(double r, double g, double b);
+void rgb_set(double r, double g, double b);
 
 /**
  * Set up the two white LEDs for usage.
  */
-void setup_white();
+void white_init();
 /**
  * Set the brightness of the white LEDs.
  */
-void set_white(double brightness);
+void white_set(double brightness);
 
 /**
  * Configure the GPIO pins connected to the Buttons and dial.
  */
-void setup_buttons();
+void buttons_init();
 
 /**
  * Get the state of the physical Buttons.
  */
-button_state get_buttons();
+button_state buttons_get();
 } // namespace hl
 
 #endif // HUSKYMOD_HUSKYLENS_H
