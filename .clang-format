@@ -1,13 +1,13 @@
 ---
-Language:        Cpp
-BasedOnStyle:  LLVM
+Language: Cpp
+BasedOnStyle: LLVM
 UseTab: Never
 #AlignConsecutiveMacros: true
 AlignTrailingComments: true
 IndentWidth: 4
 TabWidth: 4
 AllowShortIfStatementsOnASingleLine: false
-IndentCaseLabels: false
+#IndentCaseLabels: false
 ColumnLimit: 0
 AccessModifierOffset: -4
 BreakBeforeBraces: Custom
