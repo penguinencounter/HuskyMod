@@ -65,6 +65,7 @@ void buttons_init()
 
 button_state buttons_get()
 {
+    if (!_buttons_initialized) buttons_init();
     return {
         .learn = static_cast<bool>(gpiohs_get_pin(GPIO_LEARN)),
         .dial_left = static_cast<bool>(gpiohs_get_pin(GPIO_DIAL_LEFT)),
