@@ -8,9 +8,13 @@
 
 int main()
 {
+    fpioa_init();
+
+
     hl::init(hl::AllDevices);
 
     // Unknown from 000537d2
+    // May also be Camera (CMOS)
     fpioa_set_function(0x2f, FUNC_CMOS_PCLK);
     fpioa_set_function(0x2e, FUNC_CMOS_XCLK);
     fpioa_set_function(0x2d, FUNC_CMOS_HREF);
