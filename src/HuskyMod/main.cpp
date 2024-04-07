@@ -5,6 +5,7 @@
 #include <fpioa.h>
 #include <spi.h>
 #include "huskylens.h"
+#include "kpu.h"
 
 int main()
 {
@@ -13,6 +14,7 @@ int main()
 
     hl::init(hl::AllDevices);
 
+    kpu_init();
     // Unknown from 000537d2
     // May also be Camera (CMOS)
     fpioa_set_function(0x2f, FUNC_CMOS_PCLK);
